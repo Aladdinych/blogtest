@@ -11,10 +11,10 @@
 			{foreach from=$category["articles"] item=article}
 			<div class="blog-article">
 					<div class="blog-article-wrap">
-					<div class="blog-article-image" style="background-image:url('/images/{$article["picture"]}')"></div>
-					<h3>{$article["title"]}</h3>
-					<p>{$article["created_at_a"]}</p>
-					<div class="blog-article-description">{$article["description"]}</div>
+						<div class="blog-article-image" style="background-image:url('/images/{$article["picture"]}')"></div>
+						<h3>{$article["title"]}</h3>
+						<p>{$article["created_at_a"]}</p>
+						<div class="blog-article-description">{$article["description"]}</div>
 					</div>
 					<button onclick="window.location.href = '/article/id/{$article["id"]}/'">Читать статью</button>
 			</div>
