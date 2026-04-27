@@ -1,0 +1,9 @@
+.osp
+.idea
+.htaccess
+.env
+chache/*.*
+temp/*.*
+templates_c/*.*
+
+
