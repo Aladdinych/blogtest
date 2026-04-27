@@ -28,4 +28,5 @@ $page->content = $smarty->fetch('templates/category.tpl');
 
 $smarty->display(BASE_PATH.'templates/layout.tpl');
 
+
 ?>
