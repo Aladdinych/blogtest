@@ -62,7 +62,7 @@ foreach($blocks as $key=>$block){
 		$text = $block[$i];
 		$title_a = getSentence($text,80);
 		$description_a = getSentence($text,250);
-		$body_a = str_replace($description_a,'',$text);
+		$body_a = cutSentence($text, $description_a);
 		$body_a = getSentence($body_a,2048);
 		$picture = $pict[rand(1,10)];
 		$hits = rand(0,60);
@@ -84,22 +84,22 @@ foreach($blocks as $key=>$block){
 }
 
 function getSentence($text,$len){
+$delims = ['.','?','!',';',':',',','…',' '];
 	$str = mb_substr($text,0,$len,'utf-8');
-	$ostr = mb_strrchr($str,'.',true);
-	if(!$ostr){
-		$ostr = mb_strrchr($str,'?',true);
+	foreach($delims as $delim){
+		$ostr = mb_strrchr($str,$delim,true,'utf-8');
+		if(!is_bool($ostr)){
+			break;
+		}
 	}
-	if(!$ostr){
-		$ostr = mb_strrchr($str,'!',true);
-	}
-	if(!$ostr){
-		$str = str_replace([';',':','!','?','?..','...'],',',$str);
-		$ostr = mb_strrchr($str,',',true);
-	}
-	if(!$ostr){
-		$ostr = mb_strrchr($str,' ',true);
-	}
-	return $ostr.'.';
+	return (!$ostr) ? '' : $ostr.'.';
+}
+function cutSentence($text,$sentence){
+	$sent = mb_strstr($sentence,'.',true,'utf-8');
+	$ostr = str_replace($sent,'',$text);
+	$ostr = mb_strstr($ostr,' ',false,'utf-8');
+	$ostr = ltrim($ostr);
+	return (!$ostr) ? '' : $ostr;
 }
 function getNewDate($date){
 	$days = rand(1,10);
