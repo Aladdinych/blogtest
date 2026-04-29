@@ -2,7 +2,11 @@
 
 require_once('db.php');
 
+
 class Categories {
+
+const Similarity = 27;
+const ColsOnRow = 3;
 
 public $title;
 public $description;
@@ -53,7 +57,7 @@ global $page;
 			];
 		}
 
-		if(!isset($categories[$ct['ct_id']]['articles']) || count($categories[$ct['ct_id']]['articles']) < 3){
+		if(!isset($categories[$ct['ct_id']]['articles']) || count($categories[$ct['ct_id']]['articles']) < self::ColsOnRow){
 			$categories[$ct['ct_id']]['articles'][$ct['id']] = [
 				'id' => $ct['id'],
 				'title' => $ct['title'],
@@ -195,11 +199,10 @@ global $page;
 	}
 
 	arsort($result);
-	$result = array_slice($result, 1, 3, true);
-
+	$result = array_slice($result, 1, self::ColsOnRow, true);
 	$articles = [];
 	foreach($result as $key=>$item){
-		if($item['weight'] > 27){
+		if($item['weight'] > self::Similarity && $item['weight'] <> 100){
 			$articles[$key] = [
 				'id' => $rowslist[$key]['id'],
 				'title' => $rowslist[$key]['title'],
