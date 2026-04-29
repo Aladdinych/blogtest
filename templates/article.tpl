@@ -4,7 +4,7 @@
 
 		</div>
 		<div class="blog-article-nav">
-			<button onclick="window.location.href = '/'">На главную</button>
+			<button onclick="javascript:history.back(1);">Назад</button>
 		</div>
 		<div class="article-single-container">
 			<div class="article-single-image" style="background-image:url('/images/{$article['picture']}')"></div>

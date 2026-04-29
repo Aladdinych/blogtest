@@ -7,7 +7,7 @@
 			<p>{$category["description"]}</p>
 		</div>
 		<div class="blog-category-nav">
-			<button onclick="window.location.href = '/'">На главную</button>
+			<button onclick="javascript:history.back(1);">Назад</button>
 			<select id="category-sort" class="blog-category-sort" onchange="resort();">
 				<option value="ar.created_at DESC" {if $sort == "ar.created_at DESC"} selected {/if}>По дате публикации ↓</option>
 				<option value="ar.created_at ASC" {if $sort == "ar.created_at ASC"} selected {/if}>По дате публикации ↑</option>

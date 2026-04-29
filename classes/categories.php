@@ -113,17 +113,16 @@ global $page;
 				'articles' =>[]
 			];
 		}
-			$category['articles'][$ct['id']] = [
-				'id' => $ct['id'],
-				'title' => $ct['title'],
-				'description' => $ct['description'],
-				'body' => $ct['body'],
-				'picture' => $ct['picture'],
-				'hits' => $ct['hits'],
-				'created_at' => $ct['created_at'],
-				'created_at_a' => $page->dateFormatWithMonthStr($ct['created_at'])
-
-			];	
+		$category['articles'][$ct['id']] = [
+			'id' => $ct['id'],
+			'title' => $ct['title'],
+			'description' => $ct['description'],
+			'body' => $ct['body'],
+			'picture' => $ct['picture'],
+			'hits' => $ct['hits'],
+			'created_at' => $ct['created_at'],
+			'created_at_a' => $page->dateFormatWithMonthStr($ct['created_at'])
+		];	
 	}
 
 	return $category;
@@ -193,9 +192,9 @@ global $page;
 				}
 			}
 		}
-	$result[$row['id']]['weight'] = $similar_counter * 100 / $count;
-
-	$rowslist[$row['id']] = $row;
+		$result[$row['id']]['weight'] = $similar_counter * 100 / $count;
+		
+		$rowslist[$row['id']] = $row;
 	}
 
 	arsort($result);
