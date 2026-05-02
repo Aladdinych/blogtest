@@ -174,15 +174,22 @@ global $page;
 public function getSimilarArticles($article){
 global $page;
 
+	// Для исходной статьи формируем строку для сравнения	
 	$text = $article['body'] . ' ' . $article['description'] . ' ' . $article['title'];
+	// Разбиваем строку на слова
 	$words = $this->parseIntoWords($text);
 	$count = count($words); 
 	$result = [];
-	
+
+	// Считываем все статьи из БД	
 	$rows = $this->db->getRows('articles', NULL);
 	$rowslist = [];
 	foreach($rows as $row) {
+		// Для каждой целевой статьи из БД получаем массив слов
 		$verifiable = $this->parseIntoWords($row['body'] . ' ' . $row['description'] . ' ' . $row['title']);
+
+		// Сравниваем каждое слово исходной статьи со словами из целевой статьи, полученной из БД
+		// Подсчитываем количество совпавших слов
 		$similar_counter = 0;
 		foreach ($words as $word) {
 			foreach ($verifiable as $verifiable_row){
@@ -192,13 +199,19 @@ global $page;
 				}
 			}
 		}
+		// Подсчитываем процент совпавших слов для каждой целевой статьи
+		// Формируем массив "похожести" целевых статей 
 		$result[$row['id']]['weight'] = $similar_counter * 100 / $count;
 		
 		$rowslist[$row['id']] = $row;
 	}
-
+	// сортируем массив "похожести" целевых статей по убыванию процента
 	arsort($result);
+
+	// из полученного массива берем первые ColsOnRow (3) статьи исключая исходную статью
 	$result = array_slice($result, 1, self::ColsOnRow, true);
+
+	// формируем массив данных из отобранных статей для вывода
 	$articles = [];
 	foreach($result as $key=>$item){
 		if($item['weight'] > self::Similarity && $item['weight'] <> 100){
@@ -219,17 +232,18 @@ global $page;
 }
 private function parseIntoWords($text){
 
-	$text = stripslashes($text);
-	$text = html_entity_decode($text);
-	$text = htmlspecialchars_decode($text, ENT_QUOTES);
-	$text = strip_tags($text);
-	$text = mb_strtolower($text);
-	$text = str_ireplace('ё', 'е', $text);
-	$text = mb_eregi_replace("[^a-zа-яй0-9 ]", ' ', $text);
-	$text = mb_ereg_replace('[ ]+', ' ', $text);
-	$words = explode(' ', $text);
-	$words = array_unique($words);
+	$text = stripslashes($text); // Удаляем обратные слеши из строки $text
+	$text = html_entity_decode($text, ENT_QUOTES);  // Преобразуем HTML сущности в символы
+	$text = htmlspecialchars_decode($text, ENT_QUOTES); // Преобразовывает специальные HTML-сущности обратно в символы 
+	$text = strip_tags($text);  // Удаляем HTML теги из текста
+	$text = mb_strtolower($text);  // Преобразуем строку в нижний регистр
+	$text = str_ireplace('ё', 'е', $text); // Заменяем ё на е
+	$text = mb_eregi_replace("[^a-zа-яй0-9 ]", ' ', $text); // Заменяем на пробел все символы не являющиеся буквами, цифрами и пробелами
+	$text = mb_ereg_replace('[ ]+', ' ', $text); // заменяем подстроку из любого количества пробелов на 1 пробел
+	$words = explode(' ', $text); // Разбиваем текст на массив слов
+	$words = array_unique($words); // Удаляем повторяющиеся слова из массива. Теперь массив состоит из уникальных слов
 
+	// Массив из предлогов и союзов
 	$unnecesary = [
 		'без',  'близ',  'в',     'во',     'вместо', 'вне',   'для',    'до', 
 		'за',   'и',     'из',    'изо',    'из',     'за',    'под',    'к',  
@@ -238,8 +252,9 @@ private function parseIntoWords($text){
 		'подо', 'при',   'про',   'ради',   'с',      'со',    'сквозь', 'среди',
 		'у',    'через', 'но',    'или',    'по',     'не'
 	];
-
+	// Удаляем из массива слов предлоги и союзы
 	$words = array_diff($words, $unnecesary);
+	// Удаляем из массива пустые слова
 	$words = array_diff($words, array(''));	
 
 	return $words;
