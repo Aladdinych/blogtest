@@ -21,7 +21,7 @@ $this->count = $count;
 $this->page = $page;
 $this->url = $url;
 $this->class = $class;
-$this->onclick = 'onclick="'.$onclick.'(#page#);"';
+$this->onclick = (!empty($onclick)) ? 'onclick="'.$onclick.'(#page#);"' : '';
 $this->prefix = $prefix;
 $this->pages_count = ceil($this->count / $this->perpage);
 if($this->links_perbar > $this->pages_count)
