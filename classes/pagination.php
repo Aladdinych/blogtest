@@ -23,7 +23,7 @@ function __construct($count,$page,$url,$perpage=25,$class='',$onclick='',$prefix
 	$this->class = $class;
 	$this->onclick = (!empty($onclick)) ? 'onclick="'.$onclick.'(#page#);"' : '';
 	$this->prefix = $prefix;
-	$this->pages_count = ceil($this->count / $this->perpage);
+	$this->pages_count = intval(ceil($this->count / $this->perpage));
 	if($this->links_perbar > $this->pages_count){
 		$this->links_perbar = $this->pages_count;
 	}

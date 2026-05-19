@@ -47,7 +47,8 @@ private function getUriParams(){
 	return $params;
 }
 public function goPage($module = null){
-	$module = $this->module;
+	if(!isset($module))
+		$module = $this->module;
 	if(file_exists(BASE_PATH.$module)) {
 		require(BASE_PATH.$module);
 	}else{
@@ -55,12 +56,10 @@ public function goPage($module = null){
 	}
 	exit();
 }
-
 public function cutParamFromUrl($name){
 	$url = preg_replace(['/page\/\d*\//','/main\//'],'',$this->url);
 	return $url;
 }
-
 public function dateFormatWithMonthStr($date){
 $months = [
 	'Jan' => 'Янв',
@@ -81,6 +80,8 @@ $dt_m = DATE('M',strtotime($date));
 $dt = str_replace($dt_m,$months[$dt_m],$dt);
 return $dt;
 }
+
+
 
 }
 

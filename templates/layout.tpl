@@ -3,7 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{$page->title}</title>
-<meta name="title" content="{$page->title}">
 <meta name="keywords" content="{$page->metakeywords}">
 <meta name="description" content="{$page->metadescription}">
 
@@ -41,7 +40,7 @@
 <script type="text/javascript">
 
 </script>
-<script src="/js/script.js?ver=1.21042026001"></script>
+<script src="/js/script.js?ver=1.21042026002"></script>
 {/literal}
 
 																
