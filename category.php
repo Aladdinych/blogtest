@@ -1,13 +1,16 @@
 <?php
-require_once(BASE_PATH.'classes/categories.php');
-require_once(BASE_PATH.'classes/pagination.php');
+namespace Classes;
+
+use Classes\Categories;
+use Classes\Pagination;
+
 
 global $page,$smarty;
 
 $page->perpage = 9;
 $sort = (!isset($page->uriparams['sort'])) ? 'ar.created_at DESC' : urldecode($page->uriparams['sort']);
 
-$cg = new Categories();
+$cg = new Categories;
 $category = $cg->getCategory(['order' => $sort,'cat_id' => $page->uriparams['id']]);
 $count = $cg->getCountArticles(['cat_id' => $page->uriparams['id']]);
 

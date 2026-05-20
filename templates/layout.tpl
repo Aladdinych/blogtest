@@ -40,7 +40,7 @@
 <script type="text/javascript">
 
 </script>
-<script src="/js/script.js?ver=1.21042026002"></script>
+<script src="/js/script.js?ver=1.12052026003"></script>
 {/literal}
 
 																

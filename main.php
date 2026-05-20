@@ -1,6 +1,9 @@
 <?php
-require_once(BASE_PATH.'classes/categories.php');
-require_once(BASE_PATH.'classes/pagination.php');
+namespace Classes;
+
+use Classes\Categories;
+use Classes\Pagination;
+
 
 global $page,$smarty;
 

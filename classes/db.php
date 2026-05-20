@@ -1,5 +1,9 @@
 <?php
+namespace Classes;
+
 require_once('config.php');
+
+use \PDO;
 
 class Db extends PDO{
 

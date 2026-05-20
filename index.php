@@ -1,9 +1,13 @@
 <?php
+namespace Classes;
+
 if(!defined("BASE_PATH"))
 	define("BASE_PATH", realpath(dirname(realpath(__FILE__)) ) . DIRECTORY_SEPARATOR);
 
 require_once(BASE_PATH.'vendor/autoload.php');
-require_once(BASE_PATH.'classes/page.php');
+
+use Classes\Page;
+
 global $page,$smarty;
 
 $smarty = new \Smarty\Smarty;
@@ -17,7 +21,7 @@ $smarty->setCompileDir = BASE_PATH.'smarty/templates_c/';
 $smarty->setConfigDir = BASE_PATH.'smarty/config/';
 $smarty->setCacheDir = BASE_PATH.'smarty/cache/';
 
-$page = new Page();
+$page = new Page;
 
 $page->goPage();
 

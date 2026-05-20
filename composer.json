@@ -8,7 +8,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Smarty\\": "smarty/"
+            "Smarty\\": "smarty/",
+	    "Classes\\": "classes/"
         }
     }
 }

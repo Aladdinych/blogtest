@@ -1,9 +1,12 @@
 <?php
-require_once(BASE_PATH.'classes/categories.php');
+namespace Classes;
+
+use Classes\categories;
+
 
 global $page,$smarty;
 
-$cg = new Categories();
+$cg = new Categories;
 $article = $cg->getArticle(['order' => 'ar.created_at DESC','id' => $page->uriparams['id']]);
 
 

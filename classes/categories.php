@@ -1,7 +1,7 @@
 <?php
+namespace Classes;
 
-require_once('db.php');
-
+use Classes\Db;
 
 class Categories {
 
