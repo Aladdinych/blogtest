@@ -8,18 +8,6 @@ require_once(BASE_PATH.'vendor/autoload.php');
 
 use Classes\Page;
 
-global $page,$smarty;
-
-$smarty = new \Smarty\Smarty;
-
-
-$smarty->debugging = false;
-$smarty->caching = false;
-$smarty->cache_lifetime = 120;
-$smarty->setTemplateDir = BASE_PATH.'templates/';
-$smarty->setCompileDir = BASE_PATH.'smarty/templates_c/';
-$smarty->setConfigDir = BASE_PATH.'smarty/config/';
-$smarty->setCacheDir = BASE_PATH.'smarty/cache/';
 
 $page = new Page;
 

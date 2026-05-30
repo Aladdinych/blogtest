@@ -1,61 +1,58 @@
 <?php
 namespace Classes;
 
+use Classes\Route;
+use Classes\myBlogController;
+
 class Page{
 
 public $title;
-public $template;
-public $layout;
 public $metadescription;
 public $metakeywords;
 public $content;
 public $uriparams;
 public $url;
-public $module;
 public $npage;
 public $perpage;
+private $action;
+private $routedata;
 
-function __construct($layout=null){
+function __construct(){
 
-	$this->layout = (!isset($layout)) ? 'templates/layout.tpl' : $layout;
 	if(session_id() == '') 
 		session_start(); 
 
 	$this->uriparams = $this->getUriParams();
-	$this->module = $this->getModule();
 	$this->npage = (isset($this->uriparams['page'])) ? $this->uriparams['page'] : 1;
 	$this->perpage = 20;
 }
 
-private function getModule($module = null){
-	if(!isset($module)) {
-		if(empty($this->uriparams['whatdo'])) {
-			$module = 'main.php';
-		}else{
-			$module = $this->uriparams['whatdo'].'.php';
-		}
-	}
-	return $module;
-}
 private function getUriParams(){
 	$url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	$this->url = $url_path;
-	$uri_parts = explode('/', trim($url_path, ' /'));
+	$routedata = Route::getRouteData($url_path);
 	$params = [];
-	$params['whatdo'] = $uri_parts[0];
-	for($i=1; $i < count($uri_parts); $i+=2){
-		$params[$uri_parts[$i]] = $uri_parts[$i+1];
+	if(!empty($routedata)){
+		$this->routedata = $routedata;
+		$this->action = $routedata['action'];
+		if(!empty($routedata['params']) && $routedata['params'] !== '/'){
+			$uri_parts = explode('/', trim($routedata['params'], ' /'));
+			for($i=0; $i < count($uri_parts); $i+=2){
+				$params[$uri_parts[$i]] = $uri_parts[$i+1];
+			}
+		}
 	}
 	return $params;
 }
-public function goPage($module = null){
-	if(!isset($module))
-		$module = $this->module;
-	if(file_exists(BASE_PATH.$module)) {
-		require(BASE_PATH.$module);
+public function goPage(){
+
+	if(isset($this->routedata)){
+		$controller = new $this->routedata['class']($this);
+		$controller->{$this->routedata['module']}();
 	}else{
-		echo 'Модуль '.$module.' не найден!';
+		echo 'Модуль '.$this->url.' не найден!';
 	}
+
 	exit();
 }
 public function cutParamFromUrl($name){
