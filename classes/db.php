@@ -1,8 +1,6 @@
 <?php
 namespace Classes;
 
-require_once('config.php');
-
 use \PDO;
 
 class Db extends PDO{
@@ -11,10 +9,16 @@ private $result;
 
 function __construct(){
 
+	$db_conn = getenv('DB_CONNECTION') ?: $_ENV['DB_CONNECTION'];
+	$db_host = getenv('DB_HOST') ?: $_ENV['DB_HOST'];
+	$db_name = getenv('DB_DATABASE') ?: $_ENV['DB_DATABASE'];
+	$db_user = getenv('DB_USERNAME') ?: $_ENV['DB_USERNAME'];
+	$db_pass = getenv('DB_PASSWORD') ?: $_ENV['DB_PASSWORD'];
+
 	parent::__construct(
-		'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8mb4', 
-		DB_USER, 
-		DB_PASS,
+		$db_conn.':host='.$db_host.';dbname='.$db_name.';charset=utf8mb4', 
+		$db_user, 
+		$db_pass,
 		[]);
 	$info = $this->errorInfo();
 	if ($info[0] !== '00000' && !empty($info[0])) { 
