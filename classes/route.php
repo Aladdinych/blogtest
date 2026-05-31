@@ -11,15 +11,7 @@ const RouteTable = [
 	['url' => '/main', 	'class' => myBlogController::class, 'module' => 'main']
 	];
 
-public $uriparams;
-public $url;
 
-
-function __construct($layout=null){
-
-	$this->uriparams = '';
-	
-}
 
 public static function getRouteData($url){
 	if($url == '/'){
