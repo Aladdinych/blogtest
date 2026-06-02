@@ -50,7 +50,8 @@ public function goPage(){
 		$controller = new $this->routedata['class']($this);
 		$controller->{$this->routedata['module']}();
 	}else{
-		echo 'Модуль '.$this->url.' не найден!';
+		$controller = new myBlogController($this);
+		$controller->p404();
 	}
 
 	exit();

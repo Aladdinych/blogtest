@@ -86,6 +86,18 @@ $this->smarty->display(BASE_PATH.'templates/layout.tpl');
 
 }
 
+public function p404(){
+
+$this->page->title = 'Страница не найдена!';
+$this->page->metadescription = 'Страница '.$this->page->url.' не найдена!';
+$this->page->metakeywords = 'страница,не найдена';
+
+$this->smarty->assign('page',$this->page);
+$this->page->content = $this->smarty->fetch('templates/404.tpl');
+
+$this->smarty->display(BASE_PATH.'templates/layout.tpl');
+
+}
 
 }
 
