@@ -49,9 +49,6 @@ public function goPage(){
 	if(isset($this->routedata)){
 		$controller = new $this->routedata['class']($this);
 		$controller->{$this->routedata['module']}();
-	}else{
-		$controller = new myBlogController($this);
-		$controller->p404();
 	}
 
 	exit();

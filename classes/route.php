@@ -30,6 +30,14 @@ public static function getRouteData($url){
 
 		};
 	}
+	if(!isset($data)){
+		$data = [
+			'action' => '/404',
+			'class' => myBlogController::class,
+			'module' => 'p404',
+			'params' => ''
+		];
+	}
 	return $data;	
 }
 
