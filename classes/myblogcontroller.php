@@ -6,98 +6,97 @@ use Classes\Pagination;
 
 class myBlogController{
 
-use SmartyInit;
+    use SmartyInit;
 
-private $categories;
-private $page;
+    private $categories;
+    private $page;
 
-function __construct($page){
+    function __construct($page){
 
-	$this->categories = new Categories;
-	$this->page = $page;
-	$this->smartyInit();
-	
-}
+        $this->categories = new Categories;
+        $this->page = $page;
+        $this->smartyInit();
 
-public function main(){
+    }
 
-$this->page->title = 'Блог Чичикова';
-$this->page->metadescription = 'Блог Чичикова';
-$this->page->metakeywords = 'Блог,Чичиков';
-$this->page->perpage = 4;
+    public function main(){
 
-$categories = $this->categories->getCategories(['order' => 'created_at DESC']);
-$count = $this->categories->getCountCategories();
+        $this->page->title = 'Блог Чичикова';
+        $this->page->metadescription = 'Блог Чичикова';
+        $this->page->metakeywords = 'Блог,Чичиков';
+        $this->page->perpage = 4;
 
-$url = $this->page->cutParamFromUrl('page').'main/';
-$pg = new Pagination($count,$this->page->npage,$url,$this->page->perpage,'pagination-item');
-$paginationbar = $pg->getPaginationBar();
+        $categories = $this->categories->getCategories(['order' => 'created_at DESC']);
+        $count = $this->categories->getCountCategories();
 
-$this->smarty->assign('page',$this->page);
-$this->smarty->assign('categories',$categories);
-$this->smarty->assign('paginationbar',$paginationbar);
-$this->page->content = $this->smarty->fetch('templates/main.tpl');
+        $url = $this->page->cutParamFromUrl('page').'main/';
+        $pg = new Pagination($count,$this->page->npage,$url,$this->page->perpage,'pagination-item');
+        $paginationbar = $pg->getPaginationBar();
 
-$this->smarty->display(BASE_PATH.'templates/layout.tpl');
+        $this->smarty->assign('page',$this->page);
+        $this->smarty->assign('categories',$categories);
+        $this->smarty->assign('paginationbar',$paginationbar);
+        $this->page->content = $this->smarty->fetch('templates/main.tpl');
 
-}
+        $this->smarty->display(BASE_PATH.'templates/layout.tpl');
 
-public function category(){
+    }
 
-$this->page->perpage = 9;
-$sort = (!isset($this->page->uriparams['sort'])) ? 'ar.created_at DESC' : urldecode($this->page->uriparams['sort']);
+    public function category(){
 
-$category = $this->categories->getCategory(['order' => $sort,'cat_id' => $this->page->uriparams['id']]);
-$count = $this->categories->getCountArticles(['cat_id' => $this->page->uriparams['id']]);
+        $this->page->perpage = 9;
+        $sort = (!isset($this->page->uriparams['sort'])) ? 'ar.created_at DESC' : urldecode($this->page->uriparams['sort']);
 
-$url = $this->page->cutParamFromUrl('page');
-$pg = new Pagination($count,$this->page->npage,$url,$this->page->perpage,'pagination-item');
-$paginationbar = $pg->getPaginationBar();
+        $category = $this->categories->getCategory(['order' => $sort,'cat_id' => $this->page->uriparams['id']]);
+        $count = $this->categories->getCountArticles(['cat_id' => $this->page->uriparams['id']]);
 
-$this->page->title = $category['title'];
-$this->page->metadescription = $category['description'];
-$this->page->metakeywords = 'Блог,Чичиков';
+        $url = $this->page->cutParamFromUrl('page');
+        $pg = new Pagination($count,$this->page->npage,$url,$this->page->perpage,'pagination-item');
+        $paginationbar = $pg->getPaginationBar();
 
-$this->smarty->assign('page',$this->page);
-$this->smarty->assign('category',$category);
-$this->smarty->assign('sort',$sort);
-$this->smarty->assign('paginationbar',$paginationbar);
+        $this->page->title = $category['title'];
+        $this->page->metadescription = $category['description'];
+        $this->page->metakeywords = 'Блог,Чичиков';
 
-$this->page->content = $this->smarty->fetch('templates/category.tpl');
+        $this->smarty->assign('page',$this->page);
+        $this->smarty->assign('category',$category);
+        $this->smarty->assign('sort',$sort);
+        $this->smarty->assign('paginationbar',$paginationbar);
 
-$this->smarty->display(BASE_PATH.'templates/layout.tpl');
+        $this->page->content = $this->smarty->fetch('templates/category.tpl');
 
-}
+        $this->smarty->display(BASE_PATH.'templates/layout.tpl');
 
-public function article(){
+    }
 
-$article = $this->categories->getArticle(['order' => 'ar.created_at DESC','id' => $this->page->uriparams['id']]);
+    public function article(){
 
+        $article = $this->categories->getArticle(['order' => 'ar.created_at DESC','id' => $this->page->uriparams['id']]);
 
-$this->page->title = $article['title'];
-$this->page->metadescription = $article['description'];
-$this->page->metakeywords = 'Блог,Чичиков';
+        $this->page->title = $article['title'];
+        $this->page->metadescription = $article['description'];
+        $this->page->metakeywords = 'Блог,Чичиков';
 
-$this->smarty->assign('page',$this->page);
-$this->smarty->assign('article',$article);
-$this->page->content = $this->smarty->fetch('templates/article.tpl');
+        $this->smarty->assign('page',$this->page);
+        $this->smarty->assign('article',$article);
+        $this->page->content = $this->smarty->fetch('templates/article.tpl');
 
-$this->smarty->display(BASE_PATH.'templates/layout.tpl');
+        $this->smarty->display(BASE_PATH.'templates/layout.tpl');
 
-}
+    }
 
-public function p404(){
+    public function p404(){
 
-$this->page->title = 'Страница не найдена!';
-$this->page->metadescription = 'Страница '.$this->page->url.' не найдена!';
-$this->page->metakeywords = 'страница,не найдена';
+        $this->page->title = 'Страница не найдена!';
+        $this->page->metadescription = 'Страница '.$this->page->url.' не найдена!';
+        $this->page->metakeywords = 'страница,не найдена';
 
-$this->smarty->assign('page',$this->page);
-$this->page->content = $this->smarty->fetch('templates/404.tpl');
+        $this->smarty->assign('page',$this->page);
+        $this->page->content = $this->smarty->fetch('templates/404.tpl');
 
-$this->smarty->display(BASE_PATH.'templates/layout.tpl');
+        $this->smarty->display(BASE_PATH.'templates/layout.tpl');
 
-}
+    }
 
 }
 
